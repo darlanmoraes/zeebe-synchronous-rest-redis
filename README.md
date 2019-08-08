@@ -25,4 +25,4 @@ Three endpoint will be disponible to use:
 - [http://localhost:4002/workflow](http://localhost:4002/workflow)
 - [http://localhost:4003/workflow](http://localhost:4003/workflow)
 
-If you call on of the three, it will be possible to see that any of the instances are picking the Zeebe responses, but through Redis the routes are adjusted and the client receives the data accordingly.
+If you call one of the three, it will be possible to see that one of the instances are picking the Zeebe responses, but through Redis the routes are adjusted and the client receives the data accordingly.
