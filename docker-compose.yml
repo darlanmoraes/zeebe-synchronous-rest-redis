@@ -1,0 +1,214 @@
+version: "2.1"
+
+networks:
+  zeebe_network:
+    driver: bridge
+
+services:
+  app1:
+    build: .
+    ports:
+      - "4001:3000"
+    environment:
+      - HOST=app1
+    links: 
+      - node1
+      - node2
+      - node3
+      - redis-01
+      - redis-02
+      - redis-03
+      - sentinel-01
+      - sentinel-02
+      - sentinel-03
+    depends_on:
+      redis-01:
+        condition: service_healthy
+      redis-02:
+        condition: service_healthy
+      redis-03:
+        condition: service_healthy
+      sentinel-01:
+        condition: service_healthy
+      sentinel-02:
+        condition: service_healthy
+      sentinel-03:
+        condition: service_healthy
+    networks:
+      - zeebe_network
+  app2:
+    build: .
+    ports:
+      - "4002:3000"
+    environment:
+      - HOST=app2
+    links: 
+      - node1
+      - node2
+      - node3
+      - redis-01
+      - redis-02
+      - redis-03
+      - sentinel-01
+      - sentinel-02
+      - sentinel-03
+    depends_on:
+      redis-01:
+        condition: service_healthy
+      redis-02:
+        condition: service_healthy
+      redis-03:
+        condition: service_healthy
+      sentinel-01:
+        condition: service_healthy
+      sentinel-02:
+        condition: service_healthy
+      sentinel-03:
+        condition: service_healthy
+    networks:
+      - zeebe_network
+  app3:
+    build: .
+    ports:
+      - "4003:3000"
+    environment:
+      - HOST=app3
+    links: 
+      - node1
+      - node2
+      - node3
+      - redis-01
+      - redis-02
+      - redis-03
+      - sentinel-01
+      - sentinel-02
+      - sentinel-03
+    depends_on:
+      redis-01:
+        condition: service_healthy
+      redis-02:
+        condition: service_healthy
+      redis-03:
+        condition: service_healthy
+      sentinel-01:
+        condition: service_healthy
+      sentinel-02:
+        condition: service_healthy
+      sentinel-03:
+        condition: service_healthy
+    networks:
+      - zeebe_network
+  node1:
+    hostname: node1
+    image: camunda/zeebe:0.20.0
+    environment:
+      - ZEEBE_LOG_LEVEL=debug
+      - ZEEBE_NODE_ID=0
+      - ZEEBE_PARTITIONS_COUNT=2
+      - ZEEBE_REPLICATION_FACTOR=3
+      - ZEEBE_CLUSTER_SIZE=3
+      - ZEEBE_CONTACT_POINTS=node1:26502
+    ports:
+      - "26500:26500"
+    volumes:
+      - ./zeebe.cfg.toml:/usr/local/zeebe/conf/zeebe.cfg.toml
+    networks:
+      - zeebe_network
+  node2:
+    hostname: node2
+    image: camunda/zeebe:0.20.0
+    environment:
+      - ZEEBE_LOG_LEVEL=debug
+      - ZEEBE_NODE_ID=1
+      - ZEEBE_PARTITIONS_COUNT=2
+      - ZEEBE_REPLICATION_FACTOR=3
+      - ZEEBE_CLUSTER_SIZE=3
+      - ZEEBE_CONTACT_POINTS=node1:26502
+    volumes:
+      - ./zeebe.cfg.toml:/usr/local/zeebe/conf/zeebe.cfg.toml
+    networks:
+      - zeebe_network
+    depends_on:
+      - node1
+  node3:
+    hostname: node3
+    image: camunda/zeebe:0.20.0
+    environment:
+      - ZEEBE_LOG_LEVEL=debug
+      - ZEEBE_NODE_ID=2
+      - ZEEBE_PARTITIONS_COUNT=2
+      - ZEEBE_REPLICATION_FACTOR=3
+      - ZEEBE_CLUSTER_SIZE=3
+      - ZEEBE_CONTACT_POINTS=node1:26502
+    volumes:
+      - ./zeebe.cfg.toml:/usr/local/zeebe/conf/zeebe.cfg.toml
+    networks:
+      - zeebe_network
+    depends_on:
+      - node2
+  redis-01:
+    image: "healthcheck/redis"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 30
+    volumes:
+      - ./node-01/redis.conf:/redis.conf
+    command: redis-server /redis.conf
+    networks:
+      - zeebe_network
+  redis-02:
+    image: "healthcheck/redis"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 30
+    volumes:
+      - ./node-02/redis.conf:/redis.conf
+    command: redis-server /redis.conf
+    networks:
+      - zeebe_network
+  redis-03:
+    image: "healthcheck/redis"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 30
+    volumes:
+      - ./node-03/redis.conf:/redis.conf
+    command: redis-server /redis.conf
+    networks:
+      - zeebe_network
+  sentinel-01:
+    image: "healthcheck/redis"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 30
+    volumes:
+      - ./node-01/sentinel.conf:/sentinel.conf
+    command: redis-server /sentinel.conf --sentinel
+    networks:
+      - zeebe_network
+  sentinel-02:
+    image: "healthcheck/redis"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 30
+    volumes:
+      - ./node-02/sentinel.conf:/sentinel.conf
+    command: redis-server /sentinel.conf --sentinel
+    networks:
+      - zeebe_network
+  sentinel-03:
+    image: "healthcheck/redis"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 30
+    volumes:
+      - ./node-03/sentinel.conf:/sentinel.conf
+    command: redis-server /sentinel.conf --sentinel
+    networks:
+      - zeebe_network

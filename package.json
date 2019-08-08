@@ -1,0 +1,38 @@
+{
+  "name": "zeebe-synchronous-rest-redis",
+  "version": "1.0.0",
+  "description": "A simple application that can execute synchronous requests using Zeebe",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node build/index.js",
+    "build:start": "npm run build && node build/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darlanmoraes/zeebe-synchronous-rest-redis.git"
+  },
+  "keywords": [
+    "zeebe",
+    "camunda",
+    "bpmn"
+  ],
+  "author": "Darlan de Moraes Silveira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/darlanmoraes/zeebe-synchronous-rest-redis/issues"
+  },
+  "homepage": "https://github.com/darlanmoraes/zeebe-synchronous-rest-redis#readme",
+  "dependencies": {
+    "express": "4.16.4",
+    "zeebe-node": "v0.20.1",
+    "ioredis": "3.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "10.5.1",
+    "tslint": "5.18.0",
+    "typescript": "3.5.3",
+    "@types/express": "4.16.1"
+  }
+}
