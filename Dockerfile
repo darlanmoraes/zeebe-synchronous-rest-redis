@@ -8,7 +8,7 @@ RUN npm install
 COPY src src
 COPY tsconfig.json tsconfig.json
 RUN npm run build
-COPY bpmn bpmn
+COPY zeebe/random-number.bpmn zeebe/random-number.bpmn
 
 EXPOSE 3000
 

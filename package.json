@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node build/index.js",
     "build:start": "npm run build && node build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "tslint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "repository": {
     "type": "git",
@@ -26,13 +26,14 @@
   "homepage": "https://github.com/darlanmoraes/zeebe-synchronous-rest-redis#readme",
   "dependencies": {
     "express": "4.16.4",
-    "zeebe-node": "v0.20.1",
-    "ioredis": "3.2.2"
+    "ioredis": "4.14.0",
+    "zeebe-node": "v0.20.1"
   },
   "devDependencies": {
+    "@types/express": "4.16.1",
+    "@types/ioredis": "4.0.13",
     "@types/node": "10.5.1",
     "tslint": "5.18.0",
-    "typescript": "3.5.3",
-    "@types/express": "4.16.1"
+    "typescript": "3.5.3"
   }
 }
