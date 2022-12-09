@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/darlanmoraes/zeebe-synchronous-rest-redis#readme",
   "dependencies": {
-    "express": "4.16.4",
+    "express": "4.18.2",
     "ioredis": "4.14.0",
     "zeebe-node": "v0.20.1"
   },
